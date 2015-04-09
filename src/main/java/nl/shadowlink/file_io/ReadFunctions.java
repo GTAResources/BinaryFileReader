@@ -1,4 +1,4 @@
-package file_io;
+package nl.shadowlink.file_io;
 
 
 import java.io.FileNotFoundException;
