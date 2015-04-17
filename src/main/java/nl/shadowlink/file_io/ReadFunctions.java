@@ -20,6 +20,7 @@ public class ReadFunctions {
 
     /**
      * returns if a certain flag is on
+     *
      * @param flags
      * @param flag
      * @return if a flag has been set
@@ -42,9 +43,9 @@ public class ReadFunctions {
                     }
                     newFlag = flags;
                     waarde /= 2;
-                }else if(flag == newFlag){
-                        hasFlag = true;
-                        finished = true;
+                } else if (flag == newFlag) {
+                    hasFlag = true;
+                    finished = true;
                 } else {
                     flags = newFlag;
                     if (waarde == flag) {
@@ -62,6 +63,7 @@ public class ReadFunctions {
 
     /**
      * Opens a file
+     *
      * @param name
      * @return inputStream of the file
      */
@@ -77,6 +79,7 @@ public class ReadFunctions {
 
     /**
      * Closes the FileInputStream and DataInputStream
+     *
      * @param file_in
      * @param data_in
      */
@@ -91,10 +94,10 @@ public class ReadFunctions {
         return ret;
     }
 
-    public ByteBuffer getByteBuffer(int size){
+    public ByteBuffer getByteBuffer(int size) {
         byte[] buffer = new byte[size];
         ByteBuffer bbuf = ByteBuffer.allocate(size);
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             buffer[i] = readByte();
         }
         bbuf.put(buffer);
@@ -104,6 +107,7 @@ public class ReadFunctions {
 
     /**
      * Skips a certain amount of bytes
+     *
      * @param data_in
      * @param aantal
      */
@@ -117,10 +121,11 @@ public class ReadFunctions {
 
     /**
      * Reads the next byte from the inputstream and returns it as an int
+     *
      * @param data_in
      * @return an int with the byte value
      */
-    public int readByteAsInt(){
+    public int readByteAsInt() {
         byte waarde = -1;
         try {
             waarde = data_in.readByte();
@@ -132,6 +137,7 @@ public class ReadFunctions {
 
     /**
      * Returns a byte from the DataInputStream
+     *
      * @param data_in
      * @return a byte from the DataInputStream
      */
@@ -147,6 +153,7 @@ public class ReadFunctions {
 
     /**
      * Returns an int from the DataInputStream
+     *
      * @param data_in
      * @return an int from the DataInputStream
      */
@@ -162,6 +169,7 @@ public class ReadFunctions {
 
     /**
      * Returns a short as an int from the DataInputStream
+     *
      * @param data_in
      * @return a short as an int from the DataInputStream
      */
@@ -177,6 +185,7 @@ public class ReadFunctions {
 
     /**
      * Returns a float from the DataInputStream
+     *
      * @param data_in
      * @return a float from the DataInputStream
      */
@@ -194,6 +203,7 @@ public class ReadFunctions {
 
     /**
      * Returns a String from the DataInputStream with the given size
+     *
      * @param data_in
      * @param size
      * @return a String of the size size
@@ -211,6 +221,7 @@ public class ReadFunctions {
 
     /**
      * Returns a String from the DataInputStream with the given size till 0
+     *
      * @param data_in
      * @param size
      * @return a String of the size size
@@ -220,8 +231,8 @@ public class ReadFunctions {
         boolean gotNull = false;
         for (int i = 0; i < size; i++) {
             byte b = readByte();
-            if(!gotNull){
-                if(b != 0) woord += (char)b;
+            if (!gotNull) {
+                if (b != 0) woord += (char) b;
                 else gotNull = true;
             }
         }
@@ -230,6 +241,7 @@ public class ReadFunctions {
 
     /**
      * Returns a String from the DataInputStream with the given size till 0
+     *
      * @param data_in
      * @param size
      * @return a String of the size size
@@ -237,17 +249,17 @@ public class ReadFunctions {
     public String readNullTerminatedString() {
         String woord = "";
         byte b = readByte();
-        while(b != 0){
-            woord += (char)b;
+        while (b != 0) {
+            woord += (char) b;
             b = readByte();
         }
         return woord;
     }
 
 
-
     /**
      * Returns a Char from the DataInputStream
+     *
      * @param data_in
      * @return a char from the DatainputStream
      */
@@ -263,6 +275,7 @@ public class ReadFunctions {
 
     /**
      * Converts a big endian int to a little endian int
+     *
      * @param v
      * @return the little endian int of a big endian int
      */
@@ -272,6 +285,7 @@ public class ReadFunctions {
 
     /**
      * Converts a big endian short to a little endian short
+     *
      * @param i
      * @return the little endian short of a big endian short
      */
@@ -281,6 +295,7 @@ public class ReadFunctions {
 
     /**
      * Converts a big endian float to a little endian float
+     *
      * @param f
      * @return the little endian float of a big endian float
      */
@@ -292,6 +307,7 @@ public class ReadFunctions {
 
     /**
      * Reads a String from the DataInputStream till a \0 char
+     *
      * @param data_in
      * @return a String
      */
@@ -306,17 +322,17 @@ public class ReadFunctions {
         return woord;
     }
 
-    public Vector3D readVector3D(){
-        return new Vector3D(readFloat(), readFloat(),readFloat());
+    public Vector3D readVector3D() {
+        return new Vector3D(readFloat(), readFloat(), readFloat());
     }
 
-    public Vector4D readVector4D(){
-        return new Vector4D(readFloat(), readFloat(),readFloat(), readFloat());
+    public Vector4D readVector4D() {
+        return new Vector4D(readFloat(), readFloat(), readFloat(), readFloat());
     }
 
     public int moreToRead() {
         try {
-            return (int)(data_in.length() - data_in.getFilePointer());
+            return (int) (data_in.length() - data_in.getFilePointer());
         } catch (IOException ex) {
             Logger.getLogger(ReadFunctions.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
@@ -326,8 +342,8 @@ public class ReadFunctions {
     public ByteReader getByteReader() {
         try {
             Message.displayMsgLow("Data in size: " + data_in.length());
-            byte[] stream = new byte[(int)data_in.length()];
-            data_in.read(stream, 0, (int)data_in.length());
+            byte[] stream = new byte[(int) data_in.length()];
+            data_in.read(stream, 0, (int) data_in.length());
             Message.displayMsgLow("Done");
             return new ByteReader(stream, 0);
         } catch (IOException ex) {
@@ -347,10 +363,9 @@ public class ReadFunctions {
     }
 
     /**
-     *
      * @param offset
      */
-    public void seek(int offset){
+    public void seek(int offset) {
         try {
             data_in.seek(offset);
         } catch (IOException ex) {
@@ -358,14 +373,22 @@ public class ReadFunctions {
         }
     }
 
-    public long readUnsignedInt(){
-	int i = readInt();
+    public void seek(final long pOffset) {
+        try {
+            data_in.seek(pOffset);
+        } catch (IOException ex) {
+            Logger.getLogger(ReadFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public long readUnsignedInt() {
+        int i = readInt();
         long l = i & 0xffffffffL;
 
         return l;
     }
 
-    public byte[] readArray(int size){
+    public byte[] readArray(int size) {
         byte[] array = new byte[size];
         try {
             data_in.readFully(array);

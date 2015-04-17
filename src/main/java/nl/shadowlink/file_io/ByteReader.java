@@ -1,15 +1,10 @@
 package nl.shadowlink.file_io;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import java.io.ByteArrayInputStream;
 import java.nio.ByteBuffer;
 
 /**
- * @author Kilian
+ * @author Shadow-Link
  */
 public class ByteReader {
 	private byte[] stream;
@@ -23,7 +18,7 @@ public class ByteReader {
 		this.currentOffset = startOffset;
 	}
 
-	public int ReadUInt32() {
+	public int readUInt32() {
 		int i = 0;
 		int len = 4;
 		int cnt = 0;
@@ -42,10 +37,10 @@ public class ByteReader {
 		return (int) accum;
 	}
 
-	public int ReadOffset() {
+	public int readOffset() {
 		int value;
 
-		int offset = ReadUInt32();
+		int offset = readUInt32();
 
 		if (offset == 0) {
 			value = -1;
@@ -82,7 +77,7 @@ public class ByteReader {
 		return Float.intBitsToFloat(accum);
 	}
 
-	public int ReadUInt16() {
+	public int readUInt16() {
 		int low = stream[currentOffset] & 0xff;
 		int high = stream[currentOffset + 1] & 0xff;
 		currentOffset += 2;
@@ -97,7 +92,7 @@ public class ByteReader {
 
 	public int ReadDataOffset() {
 		int value;
-		int offset = ReadUInt32();
+		int offset = readUInt32();
 
 		if (offset == 0) {
 			value = 0;
@@ -118,11 +113,11 @@ public class ByteReader {
 	 * @param size
 	 * @return a String of the size size
 	 */
-	public String ReadNullTerminatedString(int size) {
+	public String readNullTerminatedString(int size) {
 		String woord = "";
 		boolean gotNull = false;
 		for (int i = 0; i < size; i++) {
-			byte b = ReadByte();
+			byte b = readByte();
 			if (!gotNull) {
 				if (b != 0)
 					woord += (char) b;
@@ -133,7 +128,7 @@ public class ByteReader {
 		return woord;
 	}
 
-	public String ReadNullTerminatedString() {
+	public String readNullTerminatedString() {
 		String sb = "";
 
 		char c = (char) stream[currentOffset];
@@ -147,7 +142,7 @@ public class ByteReader {
 		return sb;
 	}
 
-	public String ReadString(int length) {
+	public String readString(int length) {
 		String sb = "";
 
 		for (int i = 0; i < length; i++) {
@@ -184,7 +179,7 @@ public class ByteReader {
 		return retStream;
 	}
 
-	public byte ReadByte() {
+	public byte readByte() {
 		currentOffset++;
 		return stream[currentOffset - 1];
 	}
@@ -212,11 +207,19 @@ public class ByteReader {
 		byte[] buffer = new byte[size];
 		ByteBuffer bbuf = ByteBuffer.allocate(size);
 		for (int i = 0; i < size; i++) {
-			buffer[i] = ReadByte();
+			buffer[i] = readByte();
 		}
 		bbuf.put(buffer);
 		bbuf.rewind();
 		return bbuf;
+	}
+
+	public byte[] readBytes(final int pCount) {
+		final byte[] buffer = new byte[pCount];
+		for (int i = 0; i < pCount; i++) {
+			buffer[i] = readByte();
+		}
+		return buffer;
 	}
 
 	public ByteArrayInputStream getInputStream() {
@@ -247,7 +250,7 @@ public class ByteReader {
 	}
 
 	public long unsignedInt() {
-		int i = ReadUInt32();
+		int i = readUInt32();
 		long l = i & 0xffffffffL;
 
 		return l;
